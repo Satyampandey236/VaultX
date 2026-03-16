@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VaultX — Banking System</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Toast Container ── -->
+<div id="toastContainer"></div>
+
+<!-- ══════════════════════════════════════════════
+     AUTH SCREEN (Login / Register)
+══════════════════════════════════════════════ -->
+<div id="authScreen" class="screen active">
+  <div class="auth-container">
+    <div class="auth-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 40 40" fill="none">
+          <rect x="4" y="12" width="32" height="22" rx="3" stroke="#0ea5e9" stroke-width="2"/>
+          <path d="M4 18h32" stroke="#0ea5e9" stroke-width="2"/>
+          <rect x="8" y="23" width="8" height="4" rx="1" fill="#0ea5e9" opacity="0.7"/>
+          <path d="M12 8v4M20 6v6M28 8v4" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        VaultX
+      </div>
+      <div class="logo-sub">Secure Banking System</div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">Sign In</button>
+        <button class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">Open Account</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="loginPassword" placeholder="••••••••"
+                 onkeydown="if(event.key==='Enter') doLogin()">
+        </div>
+        <div class="mt-2">
+          <button class="btn btn-gold" onclick="doLogin()" id="loginBtn">
+            Sign In to VaultX
+          </button>
+        </div>
+        <div id="loginMsg"></div>
+        <div class="divider"><span>Demo Credentials</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+          <button class="btn btn-outline" style="font-size:.78rem;padding:.6rem"
+                  onclick="fillDemo('user')">
+            👤 Demo User
+          </button>
+          <button class="btn btn-outline" style="font-size:.78rem;padding:.6rem"
+                  onclick="fillDemo('admin')">
+            🔐 Admin
+          </button>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" class="hidden">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input class="form-input" type="text" id="regName" placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone *</label>
+            <input class="form-input" type="tel" id="regPhone" placeholder="9876543210">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input class="form-input" type="email" id="regEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <input class="form-input" type="password" id="regPassword" placeholder="Min 6 chars">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Type</label>
+            <select class="form-select" id="regAccType">
+              <option value="SAVINGS">Savings</option>
+              <option value="CURRENT">Current</option>
+              <option value="SALARY">Salary</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-2">
+          <button class="btn btn-gold" onclick="doRegister()" id="registerBtn">
+            Open My Account
+          </button>
+        </div>
+        <div id="registerMsg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     USER DASHBOARD
+══════════════════════════════════════════════ -->
+<div id="userDashboard" class="screen">
+  <div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect x="4" y="12" width="32" height="22" rx="3" stroke="#0ea5e9" stroke-width="2"/>
+            <path d="M4 18h32" stroke="#0ea5e9" stroke-width="2"/>
+            <rect x="8" y="23" width="8" height="4" rx="1" fill="#0ea5e9" opacity="0.7"/>
+          </svg>
+          VaultX
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-user-name" id="sidebarName">—</div>
+          <div class="sidebar-user-acc" id="sidebarAcc">—</div>
+          <div class="sidebar-user-bal" id="sidebarBal">₹0.00</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <div class="nav-item active" onclick="showUserPage('overview')" id="nav-overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </div>
+        <div class="nav-section-label">Banking</div>
+        <div class="nav-item" onclick="showUserPage('deposit')" id="nav-deposit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg>
+          Deposit
+        </div>
+        <div class="nav-item" onclick="showUserPage('withdraw')" id="nav-withdraw">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M7 12h10"/></svg>
+          Withdraw
+        </div>
+        <div class="nav-item" onclick="showUserPage('transfer')" id="nav-transfer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M15 8l4 4-4 4M9 8l-4 4 4 4"/></svg>
+          Transfer
+        </div>
+        <div class="nav-section-label">History</div>
+        <div class="nav-item" onclick="showUserPage('transactions')" id="nav-transactions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          Transactions
+        </div>
+        <div class="nav-item" onclick="showUserPage('statement')" id="nav-statement">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          Bank Statement
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline w-full" onclick="logout()" style="font-size:.82rem;padding:.6rem">
+          ⏻ Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="userMain"></main>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ADMIN DASHBOARD
+══════════════════════════════════════════════ -->
+<div id="adminDashboard" class="screen">
+  <div class="dashboard">
+
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect x="4" y="12" width="32" height="22" rx="3" stroke="#0ea5e9" stroke-width="2"/>
+            <path d="M4 18h32" stroke="#0ea5e9" stroke-width="2"/>
+            <rect x="8" y="23" width="8" height="4" rx="1" fill="#0ea5e9" opacity="0.7"/>
+          </svg>
+          VaultX
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-user-name" id="adminSidebarName">Admin</div>
+          <div class="sidebar-user-acc" style="color:var(--red)">🔐 Admin Portal</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Admin</div>
+        <div class="nav-item active" onclick="showAdminPage('overview')" id="anav-overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </div>
+        <div class="nav-item" onclick="showAdminPage('accounts')" id="anav-accounts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          All Accounts
+        </div>
+        <div class="nav-item" onclick="showAdminPage('transactions')" id="anav-transactions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          All Transactions
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline w-full" onclick="logout()" style="font-size:.82rem;padding:.6rem">
+          ⏻ Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content" id="adminMain"></main>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div style="font-size:1.1rem;font-weight:600;margin-bottom:.6rem" id="modalTitle">Confirm</div>
+    <div style="font-size:.88rem;color:var(--muted);margin-bottom:1.5rem" id="modalBody">Are you sure?</div>
+    <div class="flex gap-3">
+      <button class="btn btn-outline flex-1" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger flex-1" id="modalConfirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
