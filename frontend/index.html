@@ -14,102 +14,138 @@
 <!-- ══════════════════════════════════════════════
      AUTH SCREEN (Login / Register)
 ══════════════════════════════════════════════ -->
-<div id="authScreen" class="screen active">
-  <div class="auth-container">
-    <div class="auth-logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 40 40" fill="none">
-          <rect x="4" y="12" width="32" height="22" rx="3" stroke="#0ea5e9" stroke-width="2"/>
-          <path d="M4 18h32" stroke="#0ea5e9" stroke-width="2"/>
-          <rect x="8" y="23" width="8" height="4" rx="1" fill="#0ea5e9" opacity="0.7"/>
-          <path d="M12 8v4M20 6v6M28 8v4" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+<div id="loginPage" class="screen active auth-bubble-bg">
+  <div class="auth-center-container">
+    
+    <!-- Logo Top -->
+    <div class="auth-logo-top">
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.5rem">
+        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+          <rect x="4" y="12" width="32" height="22" rx="3" stroke="#2563eb" stroke-width="2"/>
+          <path d="M4 18h32" stroke="#2563eb" stroke-width="2"/>
+          <rect x="8" y="23" width="8" height="4" rx="1" fill="#2563eb" opacity="0.7"/>
+          <path d="M12 8v4M20 6v6M28 8v4" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        VaultX
+        <span class="vaultx-text">VaultX</span>
       </div>
-      <div class="logo-sub">Secure Banking System</div>
+      <div class="vaultx-sub">SECURE BANKING SYSTEM</div>
     </div>
 
-    <div class="auth-card">
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab"        id="tabRegister" onclick="switchAuthTab('register')">Open Account</button>
-      </div>
+    <!-- Card -->
+    <div class="auth-glass-card">
+      <div class="auth-card-inner">
+        
+        <div class="auth-tabs" style="margin-bottom:2rem;">
+          <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+          <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+        </div>
 
-      <!-- LOGIN FORM -->
-      <div id="loginForm">
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input class="form-input" type="email" id="loginEmail" placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <input class="form-input" type="password" id="loginPassword" placeholder="••••••••"
-                 onkeydown="if(event.key==='Enter') doLogin()">
-        </div>
-        <div class="mt-2">
-          <button class="btn btn-gold" onclick="doLogin()" id="loginBtn">
-            Sign In to VaultX
-          </button>
-        </div>
-        <div id="loginMsg"></div>
-        <div class="divider"><span>Demo Credentials</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
-          <button class="btn btn-outline" style="font-size:.78rem;padding:.6rem"
-                  onclick="fillDemo('user')">
-            👤 Demo User
-          </button>
-          <button class="btn btn-outline" style="font-size:.78rem;padding:.6rem"
-                  onclick="fillDemo('admin')">
-            🔐 Admin
-          </button>
-        </div>
-      </div>
+        <!-- LOGIN FORM -->
+        <div id="loginForm" class="auth-form-visible">
+          <!-- Titles -->
+          <div class="auth-header-text">
+            <h1>Welcome Back</h1>
+            <p>Sign in to your account</p>
+          </div>
 
-      <!-- REGISTER FORM -->
-      <div id="registerForm" class="hidden">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Full Name *</label>
-            <input class="form-input" type="text" id="regName" placeholder="Your full name">
+          <div class="form-group" style="margin-bottom:1.2rem;">
+            <div class="input-icon-wrapper">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input class="form-input bubble-input" type="email" id="loginEmail" placeholder="Email Address" value="rishabh">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Phone *</label>
-            <input class="form-input" type="tel" id="regPhone" placeholder="9876543210">
+          
+          <div class="form-group" style="margin-bottom:0.8rem;">
+            <div class="input-icon-wrapper">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input class="form-input bubble-input" type="password" id="loginPassword" placeholder="••••••••" value="....." onkeydown="if(event.key==='Enter') doLogin()">
+            </div>
+          </div>
+          
+          <div class="auth-options" style="justify-content:flex-end;margin-bottom:1.5rem;">
+            <a href="#" class="forgot-pass" style="color:#64748b;font-size:0.85rem;">Forgot Password?</a>
+          </div>
+
+          <div class="mt-2">
+            <button class="btn btn-bubble-primary w-full" onclick="doLogin()" id="loginBtn">
+              Sign In
+            </button>
+          </div>
+          <div id="loginMsg"></div>
+
+          <div class="divider bubble-divider"><span>Quick Sign-In</span></div>
+
+          <div class="demo-buttons-bubble" style="margin-top:1rem;">
+            <button class="btn-demo-bubble" onclick="fillDemo('user')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              Demo User
+            </button>
+            <button class="btn-demo-bubble" onclick="fillDemo('admin')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Admin
+            </button>
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email Address *</label>
-          <input class="form-input" type="email" id="regEmail" placeholder="you@example.com">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Password *</label>
-            <input class="form-input" type="password" id="regPassword" placeholder="Min 6 chars">
+
+        <!-- REGISTER FORM -->
+        <div id="registerForm" class="hidden">
+          <div class="auth-header-text">
+            <h1>Create Account</h1>
+            <p>Join VaultX securely</p>
           </div>
-          <div class="form-group">
-            <label class="form-label">Account Type</label>
-            <select class="form-select" id="regAccType">
-              <option value="SAVINGS">Savings</option>
-              <option value="CURRENT">Current</option>
-              <option value="SALARY">Salary</option>
-            </select>
+
+          <div class="form-row">
+            <div class="form-group">
+              <input class="form-input bubble-input" style="padding-left:1rem" type="text" id="regName" placeholder="Full Name">
+            </div>
+            <div class="form-group">
+              <input class="form-input bubble-input" style="padding-left:1rem" type="tel" id="regPhone" placeholder="Phone">
+            </div>
           </div>
+          <div class="form-group" style="margin-bottom:1.2rem;">
+            <input class="form-input bubble-input" style="padding-left:1rem" type="email" id="regEmail" placeholder="Email Address">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <input class="form-input bubble-input" style="padding-left:1rem" type="password" id="regPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <select class="form-select bubble-input" style="padding-left:1rem" id="regAccType">
+                <option value="SAVINGS">Savings</option>
+                <option value="CURRENT">Current</option>
+                <option value="SALARY">Salary</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-2" style="margin-top:1.5rem">
+            <button class="btn btn-bubble-primary w-full" onclick="doRegister()" id="registerBtn">
+              Create Account
+            </button>
+          </div>
+          <div id="registerMsg"></div>
         </div>
-        <div class="mt-2">
-          <button class="btn btn-gold" onclick="doRegister()" id="registerBtn">
-            Open My Account
-          </button>
-        </div>
-        <div id="registerMsg"></div>
+
       </div>
     </div>
   </div>
+
+  <!-- Decorative Bubbles -->
+  <div class="floating-bubble b1"></div>
+  <div class="floating-bubble b2"></div>
+  <div class="floating-bubble b3"></div>
+  <div class="floating-bubble b4"></div>
+  <div class="floating-bubble b5"></div>
+  <div class="floating-bubble b6"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════
      USER DASHBOARD
 ══════════════════════════════════════════════ -->
-<div id="userDashboard" class="screen">
+<div id="dashboardPage" class="screen" style="display:none;">
   <div class="dashboard">
 
     <!-- Sidebar -->
@@ -175,7 +211,7 @@
 <!-- ══════════════════════════════════════════════
      ADMIN DASHBOARD
 ══════════════════════════════════════════════ -->
-<div id="adminDashboard" class="screen">
+<div id="adminPage" class="screen" style="display:none;">
   <div class="dashboard">
 
     <aside class="sidebar">

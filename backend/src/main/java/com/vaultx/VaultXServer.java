@@ -10,10 +10,13 @@ import com.vaultx.model.Transaction;
 import com.vaultx.model.User;
 import com.vaultx.service.BankService;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,6 +42,9 @@ public class VaultXServer {
         server.createContext("/api/admin/transactions", new AdminTransactionsHandler());
         server.createContext("/api/admin/freeze", new AdminFreezeHandler());
         server.createContext("/api/admin/delete", new AdminDeleteHandler());
+
+        // Serve static files from the /frontend directory
+        server.createContext("/", new StaticFileHandler());
 
         server.setExecutor(null); 
         server.start();
@@ -77,6 +83,45 @@ public class VaultXServer {
     }
 
     // --- Handlers ---
+
+    static class StaticFileHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String path = t.getRequestURI().getPath();
+            if (path.equals("/") || path.isEmpty()) {
+                path = "/landing.html";
+            }
+
+            File file = new File("frontend" + path);
+            if (!file.exists()) {
+                String response = "404 (Not Found)\n";
+                t.sendResponseHeaders(404, response.length());
+                OutputStream os = t.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+                return;
+            }
+
+            String mimeType = Files.probeContentType(file.toPath());
+            if (mimeType == null) {
+                if (path.endsWith(".css")) mimeType = "text/css";
+                else if (path.endsWith(".js")) mimeType = "application/javascript";
+                else if (path.endsWith(".html")) mimeType = "text/html";
+                else mimeType = "application/octet-stream";
+            }
+
+            t.getResponseHeaders().set("Content-Type", mimeType);
+            t.sendResponseHeaders(200, file.length());
+
+            try (OutputStream os = t.getResponseBody(); FileInputStream fs = new FileInputStream(file)) {
+                final byte[] buffer = new byte[0x10000];
+                int count;
+                while ((count = fs.read(buffer)) >= 0) {
+                    os.write(buffer, 0, count);
+                }
+            }
+        }
+    }
 
     static class RegisterHandler implements HttpHandler {
         @Override

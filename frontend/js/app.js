@@ -115,12 +115,20 @@ async function doLogin() {
 
   if (res.role === 'ADMIN') {
     document.getElementById('adminSidebarName').textContent = res.fullName;
-    showScreen('adminDashboard');
+    showScreen('adminPage');
     showAdminPage('overview');
+    
+    // Explicit toggle as requested
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("adminPage").style.display = "block";
   } else {
     updateSidebar();
-    showScreen('userDashboard');
+    showScreen('dashboardPage');
     showUserPage('overview');
+    
+    // Explicit toggle as requested
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("dashboardPage").style.display = "block";
   }
 }
 
@@ -152,7 +160,14 @@ async function doRegister() {
 function logout() {
   session = { userId:null, fullName:null, email:null, phone:null,
     role:null, accountNumber:null, balance:0 };
-  showScreen('authScreen');
+  showScreen('loginPage');
+  
+  document.getElementById("dashboardPage").style.display = "none";
+  const adPage = document.getElementById("adminPage");
+  if (adPage) adPage.style.display = "none";
+  
+  document.getElementById("loginPage").style.display = "flex";
+  
   showToast('Signed out successfully.', 'info');
 }
 
