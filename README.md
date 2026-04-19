@@ -56,10 +56,10 @@ VaultX/
 ├── frontend/                             ← Static Frontend Component
 │   ├── index.html                        ← Single Page Application (SPA) entry point.
 │   ├── css/
-│   │   └── style.css                     ← Custom styling with a premium, luxury dark mode theme using pure CSS variables.
+│   │   └── style.css                     ← Custom styling with a modern, pastel-inspired light theme, glassmorphism UI, and pure CSS variables.
 │   └── js/
 │       ├── api.js                        ← Encapsulates all `fetch()` calls connecting the UI to the backend REST API.
-│       └── app.js                        ← Handles all DOM manipulation, state management (session), and UI rendering/routing logic.
+│       └── app.js                        ← Handles all DOM manipulation, seamless SPA state-switching (no scrolling), and UI rendering/routing logic.
 │
 ├── database/
 │   └── schema.sql                        ← MySQL structure file containing table definitions (`users`, `accounts`, `transactions`) and initial default data.
